@@ -1,0 +1,116 @@
+# Unity generated files
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+UserSettings/
+MemoryCaptures/
+
+# Asset meta data should only be ignored when the corresponding asset is also ignored
+# *.meta
+
+# Uncomment this line if you wish to ignore the asset store tools plugin
+# [Aa]ssets/AssetStoreTools*
+
+# Visual Studio / MonoDevelop / Rider
+.vscode/
+.vscode/*
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.pidb.meta
+*.pdb.meta
+
+# Rider
+.idea/
+*.idea/*
+*.sln.iml
+
+# Unity3D generated file on crash reports
+sysinfo.txt
+
+# Builds
+*.apk
+*.aab
+*.xcodeproj
+*.xcworkspace
+*.xcuserdata
+*.lock
+
+# Gradle
+.gradle/
+*.gradle
+gradle-app/
+gradle-app/*
+
+# Other files and folders
+.DS_Store
+*.swp
+*.out
+*.log
+*.pid
+*.dot
+*.mo
+*.zip
+*.tar.gz
+*.rar
+*.7z
+*.gz
+*.bak
+*.orig
+*.patch
+
+# Temporary backup files
+*.tmp
+*.bak
+*.bak.*
+*.sav
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+__MACOSX/
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+
+# VS Code
+.history/
