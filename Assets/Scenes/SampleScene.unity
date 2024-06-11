@@ -686,7 +686,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8b46e6144df645e8a246e5b40491d0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 50
   orientation: {fileID: 1947666563}
 --- !u!4 &1689935332 stripped
 Transform:
