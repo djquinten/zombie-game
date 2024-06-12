@@ -8,6 +8,9 @@ public class NewBehaviourScript : MonoBehaviour
     public Transform slide;
     public float slideBackDistance = -0.1f;
     public float slideSpeed = 0.1f;
+    public GameObject bulletPrefab;
+    public float bulletSpeed = 20f;
+    public Transform bulletSpawnPoint;
 
     private Vector3 _slideInitialPosition;
     private bool _isShooting;
@@ -24,6 +27,16 @@ public class NewBehaviourScript : MonoBehaviour
         {
             _isShooting = true;
             _slideTime = 0f;
+            
+            Vector3 shootPosition = bulletSpawnPoint.position + bulletSpawnPoint.forward * 0.1f;
+            
+            GameObject bullet = Instantiate(bulletPrefab, shootPosition, bulletSpawnPoint.rotation);
+            
+            Rigidbody rb = bullet.GetComponent<Rigidbody>();
+            
+            rb.AddForce(bulletSpawnPoint.forward * bulletSpeed, ForceMode.Impulse);
+            
+            Destroy(bullet, 2f);
         }
 
         if (_isShooting)

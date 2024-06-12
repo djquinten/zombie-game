@@ -305,6 +305,9 @@ MonoBehaviour:
   slide: {fileID: 1917938152}
   slideBackDistance: -0.1
   slideSpeed: 0.05
+  bulletPrefab: {fileID: 7200384686907818951, guid: c098e83a2d4596645a33752d8b37e5d4, type: 3}
+  bulletSpeed: 50
+  bulletSpawnPoint: {fileID: 589758497}
 --- !u!1 &612986888
 GameObject:
   m_ObjectHideFlags: 0
