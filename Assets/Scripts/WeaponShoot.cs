@@ -29,16 +29,16 @@ public class NewBehaviourScript : MonoBehaviour
             _slideTime = 0f;
             
             Vector3 shootPosition = bulletSpawnPoint.position + bulletSpawnPoint.forward * 0.1f;
-            
             GameObject bullet = Instantiate(bulletPrefab, shootPosition, bulletSpawnPoint.rotation);
-            
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
             
             rb.AddForce(bulletSpawnPoint.forward * bulletSpeed, ForceMode.Impulse);
             
+            // Destroy the bullet after 2 seconds
             Destroy(bullet, 2f);
         }
-
+ 
+        // Slide the weapon back and forth when shooting
         if (_isShooting)
         {
             _slideTime += Time.deltaTime;
