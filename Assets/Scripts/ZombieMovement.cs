@@ -9,7 +9,6 @@ public class ZombieMovement : MonoBehaviour
     public float attackRange = 1.5f;
     public int damage = 1;
     public float attackCooldown = 1.0f;
-    public AnimationClip attackAnimation;
 
     private Animator animator;
     private float lastAttackTime;
@@ -19,6 +18,9 @@ public class ZombieMovement : MonoBehaviour
         // Find the player in the scene by tag
         target = GameObject.FindGameObjectWithTag("Player").transform;
         animator = GetComponent<Animator>();
+
+        // Ensure the attack trigger is reset
+        animator.ResetTrigger("Attack");
     }
 
     void Update()
