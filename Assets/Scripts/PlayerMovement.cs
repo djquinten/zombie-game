@@ -23,16 +23,23 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 slideStartPosition;
     private float slideTime;
 
+    private GameManager gameManager;
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        Cursor.lockState = CursorLockMode.Locked;
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
         slideStartPosition = slide.localPosition;
     }
 
     void Update()
     {
+        if (!gameManager.isGameStarted)
+        {
+            return;
+        }
+
         // Movement
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
