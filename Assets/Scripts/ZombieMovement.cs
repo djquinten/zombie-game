@@ -15,12 +15,8 @@ public class ZombieMovement : MonoBehaviour
 
     void Start()
     {
-        // Find the player in the scene by tag
         target = GameObject.FindGameObjectWithTag("Player").transform;
         animator = GetComponent<Animator>();
-
-        // Ensure the attack trigger is reset
-        animator.ResetTrigger("Attack");
     }
 
     void Update()
@@ -47,19 +43,17 @@ public class ZombieMovement : MonoBehaviour
     void MoveTowardsPlayer()
     {
         Vector3 direction = (target.position - transform.position).normalized;
-        transform.LookAt(target);
+        Vector3 lookDirection = new Vector3(target.position.x, transform.position.y, target.position.z);
         Vector3 move = direction * speed * Time.deltaTime;
 
-        // Move while keeping the Y position at 0
+        transform.LookAt(lookDirection);
         transform.position += new Vector3(move.x, 0, move.z);
     }
 
     void Attack()
     {
-        animator.SetTrigger("Attack"); // Trigger the attack animation
-
-        // Deal damage to the player after the animation delay
-        Invoke("DealDamage", 0.5f); // Adjust delay as per animation length
+        animator.SetTrigger("Attack");
+        Invoke("DealDamage", 0.5f);
     }
 
     void DealDamage()

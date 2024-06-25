@@ -245,10 +245,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   speed: 3
-  attackRange: 1.5
+  attackRange: 2
   damage: 1
   attackCooldown: 1
-  attackAnimation: {fileID: 7400000, guid: de559bbb071ebfd40ab5af80881e75e8, type: 2}
 --- !u!65 &4214663917965823184
 BoxCollider:
   m_ObjectHideFlags: 0

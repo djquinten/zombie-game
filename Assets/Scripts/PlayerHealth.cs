@@ -27,7 +27,6 @@ public class PlayerHealth : MonoBehaviour
         // Add logic for what happens when the player dies
     }
 
-    // Optional: Add a method to display health on the UI
     // public Text healthText;
 
     void Update()
