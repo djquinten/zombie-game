@@ -9,6 +9,7 @@ public class BulletController : MonoBehaviour
 
     void Start()
     {
+        // when spawned, destroy after a certain amount of time
         Destroy(gameObject, lifeTime);
     }
 

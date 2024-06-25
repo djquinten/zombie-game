@@ -21,22 +21,21 @@ public class ZombieMovement : MonoBehaviour
 
     void Update()
     {
-        if (target != null)
+        if (target == null)
         {
-            float distance = Vector3.Distance(transform.position, target.position);
+            return;
+        }
 
-            if (distance <= attackRange)
-            {
-                if (Time.time >= lastAttackTime + attackCooldown)
-                {
-                    Attack();
-                    lastAttackTime = Time.time;
-                }
-            }
-            else
-            {
-                MoveTowardsPlayer();
-            }
+        float distance = Vector3.Distance(transform.position, target.position);
+
+        if (distance <= attackRange && Time.time >= lastAttackTime + attackCooldown)
+        {
+            Attack();
+            lastAttackTime = Time.time;
+        }
+        else
+        {
+            MoveTowardsPlayer();
         }
     }
 

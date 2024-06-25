@@ -91,6 +91,6 @@ public class PlayerMovement : MonoBehaviour
         isShooting = true;
         slideTime = 0;
 
-        GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+        Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
     }
 }
