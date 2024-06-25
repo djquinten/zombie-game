@@ -48,7 +48,10 @@ public class ZombieMovement : MonoBehaviour
     {
         Vector3 direction = (target.position - transform.position).normalized;
         transform.LookAt(target);
-        transform.position += direction * speed * Time.deltaTime;
+        Vector3 move = direction * speed * Time.deltaTime;
+
+        // Move while keeping the Y position at 0
+        transform.position += new Vector3(move.x, 0, move.z);
     }
 
     void Attack()
