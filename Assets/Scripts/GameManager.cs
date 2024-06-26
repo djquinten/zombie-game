@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public float spawnInterval = 3.0f;
     public Button startButton;
 
+    public GameObject HUD;
+
     void Start()
     {
         startButton.onClick.AddListener(StartGame);
@@ -24,6 +26,8 @@ public class GameManager : MonoBehaviour
         StartCoroutine(SpawnTarget());
 
         Cursor.lockState = CursorLockMode.Locked;
+
+        HUD.SetActive(true);
     }
 
     IEnumerator SpawnTarget()

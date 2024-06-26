@@ -1,20 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
+    public TextMeshProUGUI healthText;
     public int maxHealth = 5;
+
     private int currentHealth;
 
     void Start()
     {
         currentHealth = maxHealth;
+        updateHealth();
     }
 
     public void TakeDamage(int amount = 1)
     {
         currentHealth -= amount;
+        updateHealth();
         if (currentHealth <= 0)
         {
             Die();
@@ -24,16 +30,10 @@ public class PlayerHealth : MonoBehaviour
     void Die()
     {
         Debug.Log("Player Died!");
-        // Add logic for what happens when the player dies
     }
 
-    // public Text healthText;
-
-    void Update()
+    void updateHealth()
     {
-        // if (healthText != null)
-        // {
-        //     healthText.text = "Health: " + currentHealth;
-        // }
+        healthText.text = "Health: " + currentHealth;
     }
 }
