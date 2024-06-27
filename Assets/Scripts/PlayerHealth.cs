@@ -10,30 +10,32 @@ public class PlayerHealth : MonoBehaviour
     public int maxHealth = 5;
 
     private int currentHealth;
+    private GameManager gameManager;
 
     void Start()
     {
-        currentHealth = maxHealth;
-        updateHealth();
+        RefreshHealth();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     public void TakeDamage(int amount = 1)
     {
         currentHealth -= amount;
-        updateHealth();
+        UpdateHealth();
         if (currentHealth <= 0)
         {
-            Die();
+            gameManager.Die();
         }
     }
 
-    void Die()
-    {
-        Debug.Log("Player Died!");
-    }
-
-    void updateHealth()
+    void UpdateHealth()
     {
         healthText.text = "Health: " + currentHealth;
+    }
+
+    public void RefreshHealth()
+    {
+        currentHealth = maxHealth;
+        UpdateHealth();
     }
 }
