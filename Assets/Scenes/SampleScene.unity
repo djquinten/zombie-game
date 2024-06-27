@@ -2521,7 +2521,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isGameStarted: 0
   enemyPrefab: {fileID: 1496893927204639114, guid: 6dc4cf4496348884d8ee27743ae38562, type: 3}
-  spawnInterval: 3
+  initialSpawnInterval: 3
   startButton: {fileID: 1927404182}
   restartButton: {fileID: 743922670}
   tryAgainButton: {fileID: 963209451}
@@ -2529,6 +2529,8 @@ MonoBehaviour:
   dieScreen: {fileID: 714994264}
   winScreen: {fileID: 1251964450}
   HUD: {fileID: 270898949}
+  waveText: {fileID: 482219047}
+  zombiesRemainingText: {fileID: 1006737535}
 --- !u!4 &1844678142
 Transform:
   m_ObjectHideFlags: 0

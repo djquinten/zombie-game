@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,10 +13,12 @@ public class ZombieMovement : MonoBehaviour
 
     private Animator animator;
     private float lastAttackTime;
+    private GameManager gameManager;
 
     void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").transform;
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         animator = GetComponent<Animator>();
     }
 
@@ -28,15 +31,23 @@ public class ZombieMovement : MonoBehaviour
 
         float distance = Vector3.Distance(transform.position, target.position);
 
-        if (distance <= attackRange && Time.time >= lastAttackTime + attackCooldown)
+        if (distance <= attackRange)
         {
-            Attack();
-            lastAttackTime = Time.time;
+            if (Time.time >= lastAttackTime + attackCooldown)
+            {
+                Attack();
+                lastAttackTime = Time.time;
+            }
         }
         else
         {
             MoveTowardsPlayer();
         }
+    }
+
+    private void OnDestroy()
+    {
+        gameManager.ZombieKilled();
     }
 
     void MoveTowardsPlayer()
