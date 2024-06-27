@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ZombieMovement : MonoBehaviour
@@ -11,20 +8,20 @@ public class ZombieMovement : MonoBehaviour
     public int damage = 1;
     public float attackCooldown = 1.0f;
 
-    private Animator animator;
-    private float lastAttackTime;
-    private GameManager gameManager;
+    private Animator _animator;
+    private float _lastAttackTime;
+    private GameManager _gameManager;
 
-    void Start()
+    private void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").transform;
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        animator = GetComponent<Animator>();
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        _animator = GetComponent<Animator>();
     }
 
-    void Update()
+    private void Update()
     {
-        if (target == null)
+        if (! target || !_gameManager.isGameStarted)
         {
             return;
         }
@@ -33,10 +30,10 @@ public class ZombieMovement : MonoBehaviour
 
         if (distance <= attackRange)
         {
-            if (Time.time >= lastAttackTime + attackCooldown)
+            if (Time.time >= _lastAttackTime + attackCooldown)
             {
                 Attack();
-                lastAttackTime = Time.time;
+                _lastAttackTime = Time.time;
             }
         }
         else
@@ -47,10 +44,10 @@ public class ZombieMovement : MonoBehaviour
 
     private void OnDestroy()
     {
-        gameManager.ZombieKilled();
+        _gameManager.ZombieKilled();
     }
 
-    void MoveTowardsPlayer()
+    private void MoveTowardsPlayer()
     {
         Vector3 direction = (target.position - transform.position).normalized;
         Vector3 lookDirection = new Vector3(target.position.x, transform.position.y, target.position.z);
@@ -60,15 +57,15 @@ public class ZombieMovement : MonoBehaviour
         transform.position += new Vector3(move.x, 0, move.z);
     }
 
-    void Attack()
+    private void Attack()
     {
-        animator.SetTrigger("Attack");
+        _animator.SetTrigger("Attack");
         Invoke("DealDamage", 0.5f);
     }
 
-    void DealDamage()
+    private void DealDamage()
     {
-        if (target != null && Vector3.Distance(transform.position, target.position) <= attackRange)
+        if (target && Vector3.Distance(transform.position, target.position) <= attackRange)
         {
             target.GetComponent<PlayerHealth>().TakeDamage(damage);
         }

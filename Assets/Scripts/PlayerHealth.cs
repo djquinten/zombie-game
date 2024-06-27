@@ -1,41 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
     public TextMeshProUGUI healthText;
     public int maxHealth = 5;
 
-    private int currentHealth;
-    private GameManager gameManager;
+    private int _currentHealth;
+    private GameManager _gameManager;
 
-    void Start()
+    private void Start()
     {
         RefreshHealth();
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     public void TakeDamage(int amount = 1)
     {
-        currentHealth -= amount;
+        _currentHealth -= amount;
         UpdateHealth();
-        if (currentHealth <= 0)
+        
+        if (_currentHealth <= 0)
         {
-            gameManager.Die();
+            _gameManager.Die();
         }
     }
 
-    void UpdateHealth()
+    private void UpdateHealth()
     {
-        healthText.text = "Health: " + currentHealth;
+        healthText.text = "Health: " + _currentHealth;
     }
 
     public void RefreshHealth()
     {
-        currentHealth = maxHealth;
+        _currentHealth = maxHealth;
         UpdateHealth();
     }
 }

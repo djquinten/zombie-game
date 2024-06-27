@@ -2519,18 +2519,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d66ca86af4a34e259a1b3a1bda4e26b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGameStarted: 0
   enemyPrefab: {fileID: 1496893927204639114, guid: 6dc4cf4496348884d8ee27743ae38562, type: 3}
   initialSpawnInterval: 3
+  totalWaves: 5
+  zombiesPerWave: 5
   startButton: {fileID: 1927404182}
   restartButton: {fileID: 743922670}
   tryAgainButton: {fileID: 963209451}
   titleScreen: {fileID: 1455618968}
   dieScreen: {fileID: 714994264}
   winScreen: {fileID: 1251964450}
-  HUD: {fileID: 270898949}
+  hud: {fileID: 270898949}
   waveText: {fileID: 482219047}
   zombiesRemainingText: {fileID: 1006737535}
+  isGameStarted: 0
 --- !u!4 &1844678142
 Transform:
   m_ObjectHideFlags: 0

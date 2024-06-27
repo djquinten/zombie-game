@@ -18,46 +18,42 @@ public class GameManager : MonoBehaviour
     public GameObject dieScreen;
     public GameObject winScreen;
 
-    public GameObject HUD;
+    public GameObject hud;
 
     public TextMeshProUGUI waveText;
     public TextMeshProUGUI zombiesRemainingText;
 
-    public bool isGameStarted = false;
-    private GameObject activeScreen;
-    private PlayerHealth playerHealth;
-    private int currentWave = 0;
-    private int zombiesRemaining;
-    private float spawnInterval;
+    public bool isGameStarted;
+    private GameObject _activeScreen;
+    private PlayerHealth _playerHealth;
+    private int _currentWave = 0;
+    private int _zombiesRemaining;
+    private float _spawnInterval;
 
-    void Start()
+    private void Start()
     {
-        activeScreen = titleScreen;
-        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
-        AssignButtonListeners();
-    }
+        _activeScreen = titleScreen;
+        _playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
 
-    void AssignButtonListeners()
-    {
         startButton.onClick.AddListener(StartGame);
         restartButton.onClick.AddListener(StartGame);
         tryAgainButton.onClick.AddListener(StartGame);
     }
 
-    void StartGame()
+    private void StartGame()
     {
-        playerHealth.RefreshHealth();
+        _playerHealth.RefreshHealth();
         isGameStarted = true;
         SwitchScreen(null);
         InitializeGame();
     }
 
-    void InitializeGame()
+    private void InitializeGame()
     {
-        currentWave = 0;
-        zombiesRemaining = 0;
+        _currentWave = 0;
+        _zombiesRemaining = 0;
         Cursor.lockState = CursorLockMode.Locked;
-        HUD.SetActive(true);
+        hud.SetActive(true);
         StartNextWave();
     }
 
@@ -66,62 +62,66 @@ public class GameManager : MonoBehaviour
         EndGame(dieScreen);
     }
 
-    void Win()
+    private void Win()
     {
         EndGame(winScreen);
     }
 
-    void EndGame(GameObject endScreen)
+    private void EndGame(GameObject endScreen)
     {
         isGameStarted = false;
         SwitchScreen(endScreen);
-        HUD.SetActive(false);
+        hud.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
-        DestroyAllEnemies();
-    }
 
-    void SwitchScreen(GameObject newScreen)
-    {
-        if (activeScreen != null)
-            activeScreen.SetActive(false);
-
-        if (newScreen != null)
-        {
-            newScreen.SetActive(true);
-            activeScreen = newScreen;
-        }
-    }
-
-    void DestroyAllEnemies()
-    {
         foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Zombie"))
         {
             Destroy(enemy);
         }
     }
 
+    private void SwitchScreen(GameObject newScreen)
+    {
+        if (_activeScreen)
+        {
+            _activeScreen.SetActive(false);
+        }
+
+        if (! newScreen) return;
+
+        newScreen.SetActive(true);
+        _activeScreen = newScreen;
+    }
+
+    // Coroutine to spawn a wave of zombies with a delay between each spawn
     private IEnumerator SpawnWave(int numberOfZombies)
     {
-        zombiesRemaining = numberOfZombies;
+        _zombiesRemaining = numberOfZombies;
         UpdateZombiesRemainingText();
-        for (int i = 0; i < numberOfZombies; i++)
+
+        for (var i = 0; i < numberOfZombies; i++)
         {
+            if (!isGameStarted)
+            {
+                break;
+            }
+
             Vector3 spawnPosition = new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10));
             Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
-            yield return new WaitForSeconds(spawnInterval);
+            yield return new WaitForSeconds(_spawnInterval);
         }
     }
 
-    void StartNextWave()
+    private void StartNextWave()
     {
-        if (currentWave < totalWaves)
+        if (_currentWave < totalWaves && isGameStarted)
         {
-            currentWave++;
+            _currentWave++;
             UpdateWaveText();
-            spawnInterval = initialSpawnInterval / currentWave;
-            StartCoroutine(SpawnWave(zombiesPerWave * currentWave));
+            _spawnInterval = initialSpawnInterval / _currentWave;
+            StartCoroutine(SpawnWave(zombiesPerWave * _currentWave));
         }
-        else if (zombiesRemaining == 0)
+        else if (_zombiesRemaining == 0 && isGameStarted)
         {
             Win();
         }
@@ -129,25 +129,28 @@ public class GameManager : MonoBehaviour
 
     public void ZombieKilled()
     {
-        zombiesRemaining--;
+        _zombiesRemaining--;
         UpdateZombiesRemainingText();
 
-        if (zombiesRemaining <= 0)
+        if (_zombiesRemaining > 0) return;
+
+        if (_currentWave < totalWaves)
         {
-            if (currentWave < totalWaves)
-                StartNextWave();
-            else
-                Win();
+            StartNextWave();
+        }
+        else
+        {
+            Win();
         }
     }
 
-    void UpdateWaveText()
+    private void UpdateWaveText()
     {
-        waveText.text = $"Wave: {currentWave}";
+        waveText.text = $"Wave: {_currentWave}";
     }
 
-    void UpdateZombiesRemainingText()
+    private void UpdateZombiesRemainingText()
     {
-        zombiesRemainingText.text = $"Zombies Remaining: {zombiesRemaining}";
+        zombiesRemainingText.text = $"Zombies Remaining: {_zombiesRemaining}";
     }
 }

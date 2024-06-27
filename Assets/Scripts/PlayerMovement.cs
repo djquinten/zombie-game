@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -15,27 +13,27 @@ public class PlayerMovement : MonoBehaviour
     public float slideBackDistance = -0.1f;
     public float slideSpeed = 0.1f;
 
-    private CharacterController controller;
-    private Vector3 velocity;
-    private float xRotation = 0f;
-    private bool isShooting = false;
+    private CharacterController _controller;
+    private Vector3 _velocity;
+    private float _xRotation = 0f;
+    private bool _isShooting = false;
 
-    private Vector3 slideStartPosition;
-    private float slideTime;
+    private Vector3 _slideStartPosition;
+    private float _slideTime;
 
-    private GameManager gameManager;
+    private GameManager _gameManager;
 
-    void Start()
+    private void Start()
     {
-        controller = GetComponent<CharacterController>();
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        _controller = GetComponent<CharacterController>();
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
-        slideStartPosition = slide.localPosition;
+        _slideStartPosition = slide.localPosition;
     }
 
-    void Update()
+    private void Update()
     {
-        if (!gameManager.isGameStarted)
+        if (!_gameManager.isGameStarted)
         {
             return;
         }
@@ -45,58 +43,60 @@ public class PlayerMovement : MonoBehaviour
         float z = Input.GetAxis("Vertical");
 
         Vector3 move = transform.right * x + transform.forward * z;
-        controller.Move(move * speed * Time.deltaTime);
+        _controller.Move(move * speed * Time.deltaTime);
 
         // Gravity
-        if (controller.isGrounded && velocity.y < 0)
+        if (_controller.isGrounded && _velocity.y < 0)
         {
-            velocity.y = -2f;
+            _velocity.y = -2f;
         }
-        velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
+        _velocity.y += gravity * Time.deltaTime;
+        _controller.Move(_velocity * Time.deltaTime);
 
         // Mouse look
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        _xRotation -= mouseY;
+        _xRotation = Mathf.Clamp(_xRotation, -90f, 90f); // Limit vertical rotation to prevent flipping
 
-        playerCameraHolder.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        transform.Rotate(Vector3.up * mouseX);
+        playerCameraHolder.localRotation = Quaternion.Euler(_xRotation, 0f, 0f); // Move camera on X axis
+        transform.Rotate(Vector3.up * mouseX); // Rotate player on Y axis
 
         // Shooting
-        if (Input.GetButtonDown("Fire1") && !isShooting)
+        if (Input.GetButtonDown("Fire1") && !_isShooting)
         {
             Shoot();
         }
 
-        // Slide the weapon back and forth when shooting
-        if (isShooting)
+        // Handle weapon slide back and forth animation when shooting
+        if (_isShooting)
         {
-            slideTime += Time.deltaTime;
+            _slideTime += Time.deltaTime;
 
-            // Move the slide back and forth
-            if (slideTime < slideSpeed)
+            // Move the slide back
+            if (_slideTime < slideSpeed)
             {
-                slide.localPosition = Vector3.Lerp(slideStartPosition, slideStartPosition - new Vector3(0, 0, slideBackDistance), slideTime / slideSpeed);
+                slide.localPosition = Vector3.Lerp(_slideStartPosition, _slideStartPosition - new Vector3(0, 0, slideBackDistance), _slideTime / slideSpeed);
             }
-            else if (slideTime < slideSpeed * 2)
+            // Move the slide forward
+            else if (_slideTime < slideSpeed * 2)
             {
-                slide.localPosition = Vector3.Lerp(slideStartPosition - new Vector3(0, 0, slideBackDistance), slideStartPosition, (slideTime - slideSpeed) / slideSpeed);
+                slide.localPosition = Vector3.Lerp(_slideStartPosition - new Vector3(0, 0, slideBackDistance), _slideStartPosition, (_slideTime - slideSpeed) / slideSpeed);
             }
+            // Reset the slide position
             else
             {
-                slide.localPosition = slideStartPosition;
-                isShooting = false;
+                slide.localPosition = _slideStartPosition;
+                _isShooting = false;
             }
         }
     }
 
-    void Shoot()
+    private void Shoot()
     {
-        isShooting = true;
-        slideTime = 0;
+        _isShooting = true;
+        _slideTime = 0;
 
         Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
     }
